@@ -1,0 +1,14 @@
+---
+- name: Syncing state
+  hosts: rpi
+  remote_user: root
+
+  tasks:
+  - stat: path=/home/dominique/start_serv.sh
+    register: p
+
+  - debug: msg="Path exists"
+    when: p.stat.exists
+
+  - debug: msg="Path does not exists"
+    when: not p.stat.exists

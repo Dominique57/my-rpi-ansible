@@ -1,0 +1,7 @@
+myhosts:
+  hosts:
+    rpi:
+      ansible_host: aloeil.ddns.net
+      ansible_connection: ssh 
+      ansible_ssh_user: dominique
+      ansible_ssh_pass: '{{ lookup("env", "RPI_ANSIBLE_PASSWORD") }}'
