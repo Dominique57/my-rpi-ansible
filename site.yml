@@ -1,0 +1,10 @@
+---
+- name: "Setup or update common"
+  hosts: all
+  roles:
+    - common
+
+- name: "Setup or update rpi"
+  hosts: rpi
+  roles:
+    - nginx

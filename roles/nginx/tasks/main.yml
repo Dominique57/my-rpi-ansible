@@ -1,0 +1,14 @@
+---
+- name: "Create nginx root directory"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0700'
+  loop:
+    - /compose/nginx/
+
+- name: "Create nginx compose file"
+  ansible.builtin.template:
+    src: "docker-compose.yml.j2"
+    dest: /compose/nginx/docker-compose.yml
+    mode: '0600'
