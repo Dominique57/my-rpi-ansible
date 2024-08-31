@@ -1,14 +1,34 @@
 ---
-- name: "Create nginx root directory"
+- name: "Create root directory"
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     mode: '0700'
   loop:
     - /compose/nginx/
+    - /compose/nginx/binds/
 
-- name: "Create nginx compose file"
+- name: "Create bind applicative directory"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0777'
+  loop:
+    - /compose/nginx/binds/certs/
+    - /compose/nginx/binds/conf.d/
+    - /compose/nginx/binds/root/
+    - /compose/nginx/binds/root/certbot/
+
+
+- name: "Create compose file"
   ansible.builtin.template:
     src: "docker-compose.yml.j2"
     dest: /compose/nginx/docker-compose.yml
+    mode: '0600'
+
+
+- name: "Create default proxy"
+  ansible.builtin.template:
+    src: "default.conf.j2"
+    dest: /compose/nginx/binds/conf.d/default.conf
     mode: '0600'

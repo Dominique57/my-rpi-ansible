@@ -2,9 +2,19 @@ version: '3.8'
 
 services:
   nginx:
-    image: nginx:1.27
+    image: nginx:latest
     container_name: nginx
     restart: unless-stopped
-    port:
-      - 8080:80
-      - 8081:443
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./binds/conf.d/:/etc/nginx/conf.d/:ro
+      - ./binds/root/:/var/www/:ro
+      - ./binds/certs/:/etc/nginx/ssl/:ro
+
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./binds/root/certbot/:/var/www/certbot/:rw
+      - ./binds/certs/:/etc/letsencrypt/:rw
