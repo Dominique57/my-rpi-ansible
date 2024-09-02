@@ -12,6 +12,7 @@ services:
       - ./binds/conf.d/:/etc/nginx/conf.d/:ro
       - ./binds/root/:/var/www/:ro
       - ./binds/certs/:/etc/nginx/ssl/:ro
+      - ./binds/nginx.conf:/etc/nginx/nginx.conf:ro
 
   certbot:
     image: certbot/certbot:latest

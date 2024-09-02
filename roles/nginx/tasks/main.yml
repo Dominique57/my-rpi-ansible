@@ -19,16 +19,24 @@
     - /compose/nginx/binds/root/
     - /compose/nginx/binds/root/certbot/
 
+- name: "Copy nginx conf"
+  ansible.builtin.copy:
+    src: "{{ role_path }}/files/nginx.conf"
+    dest: "/compose/nginx/binds/nginx.conf"
+    mode: '0644'
+
+- name: "Copy nginx domains confs"
+  ansible.builtin.template:
+    src: "{{ role_path }}/files/{{ item }}.conf"
+    dest: "/compose/nginx/binds/conf.d/{{ item }}.conf"
+    mode: '0600'
+  loop:
+    - aloeil.ddns.net
+    - aloeil.duckdns.org
+    - WC.aloeil.duckdns.org
 
 - name: "Create compose file"
   ansible.builtin.template:
     src: "docker-compose.yml.j2"
-    dest: /compose/nginx/docker-compose.yml
-    mode: '0600'
-
-
-- name: "Create default proxy"
-  ansible.builtin.template:
-    src: "default.conf.j2"
-    dest: /compose/nginx/binds/conf.d/default.conf
+    dest: "/compose/nginx/docker-compose.yml"
     mode: '0600'
