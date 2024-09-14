@@ -14,7 +14,7 @@
     mode: '0755'
   loop:
     - bind/
-    - bind/cert/
+    - bind/certs/
 
 - name: "Create compose file"
   ansible.builtin.template:
