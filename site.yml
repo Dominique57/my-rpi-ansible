@@ -1,0 +1,5 @@
+---
+- name: "Setup or update common"
+  hosts: all
+  roles:
+    - common
