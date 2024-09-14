@@ -1,0 +1,14 @@
+#!/bin/sh
+
+token="{{ lookup('ansible.builtin.env', 'DUCKDNS_TOKEN') }}"
+domain="$CERTBOT_DOMAIN"
+txt="$CERTBOT_VALIDATION"
+verbose="&verbose=true"
+# clear="&clear=true"
+
+url="https://www.duckdns.org/update?domains=$domain&token=$token&txt=$txt$verbose$clear"
+echo "Executing:\t$url"
+curl "$url"
+echo ""
+
+sleep 10

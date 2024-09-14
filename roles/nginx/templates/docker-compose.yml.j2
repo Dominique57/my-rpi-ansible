@@ -9,13 +9,13 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ./binds/conf.d/:/etc/nginx/conf.d/:ro
-      - ./binds/root/:/var/www/:ro
-      - ./binds/certs/:/etc/nginx/ssl/:ro
-      - ./binds/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./bind/conf.d/:/etc/nginx/conf.d/:ro
+      - ./bind/root/:/var/www/:ro
+      - ./bind/cert/:/etc/nginx/ssl/:ro
+      - ./bind/nginx.conf:/etc/nginx/nginx.conf:ro
 
   certbot:
     image: certbot/certbot:latest
     volumes:
-      - ./binds/root/certbot/:/var/www/certbot/:rw
-      - ./binds/certs/:/etc/letsencrypt/:rw
+      - ./bind/root/certbot/:/var/www/certbot/:rw
+      - ./bind/cert/:/etc/letsencrypt/:rw

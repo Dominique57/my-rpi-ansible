@@ -1,35 +1,37 @@
 ---
 - name: "Create root directory"
   ansible.builtin.file:
-    path: "{{ item }}"
+    path: "/compose/nginx/{{ item }}"
     state: directory
     mode: '0700'
   loop:
-    - /compose/nginx/
-    - /compose/nginx/binds/
+    - ''
 
-- name: "Create bind applicative directory"
+- name: "Create applicative directory"
   ansible.builtin.file:
-    path: "{{ item }}"
+    path: "/compose/nginx/{{ item }}"
     state: directory
-    mode: '0777'
+    mode: '0755'
   loop:
-    - /compose/nginx/binds/certs/
-    - /compose/nginx/binds/conf.d/
-    - /compose/nginx/binds/root/
-    - /compose/nginx/binds/root/certbot/
+    - bind/
+    - bind/cert/
+    - bind/conf.d/
+    - bind/root/
+    - bind/root/certbot/
+    - data/
+    - data/script/
 
 - name: "Copy nginx conf"
   ansible.builtin.copy:
     src: "{{ role_path }}/files/nginx.conf"
-    dest: "/compose/nginx/binds/nginx.conf"
+    dest: "/compose/nginx/bind/nginx.conf"
     mode: '0644'
 
 - name: "Copy nginx domains confs"
-  ansible.builtin.template:
-    src: "{{ role_path }}/files/{{ item }}.conf"
-    dest: "/compose/nginx/binds/conf.d/{{ item }}.conf"
-    mode: '0600'
+  ansible.builtin.copy:
+    src: "{{ role_path }}/files/domain/{{ item }}.conf"
+    dest: "/compose/nginx/bind/conf.d/{{ item }}.conf"
+    mode: '0644'
   loop:
     - aloeil.ddns.net
     - aloeil.duckdns.org
@@ -40,3 +42,32 @@
     src: "docker-compose.yml.j2"
     dest: "/compose/nginx/docker-compose.yml"
     mode: '0600'
+
+- name: "Create certbot management scripts"
+  ansible.builtin.copy:
+    src: "{{ role_path }}/files/script/{{ item }}"
+    dest: "/compose/nginx/data/script/{{ item }}"
+    mode: '0754'
+  loop:
+    - aloeil-certbot-create.sh
+    - aloeil-certbot-renew.sh
+
+- name: "Create certbot hook scripts"
+  ansible.builtin.template:
+    src: "script/{{ item }}.j2"
+    dest: "/compose/nginx/data/script/{{ item }}"
+    mode: '0754'
+  loop:
+    - aloeil-duckdns-auth.sh
+    - aloeil-duckdns-clean.sh
+
+- name: "Create certbot renew crontab job"
+  ansible.builtin.cron:
+    name: "certbot_renew"
+    minute: 0
+    hour: 4
+    job: "/compose/nginx/data/script/aloeil-certbot-renew.sh"
+
+- name: "Create certbot certs"
+  ansible.builtin.shell:
+    cmd: "/compose/nginx/data/script/aloeil-certbot-create.sh"
