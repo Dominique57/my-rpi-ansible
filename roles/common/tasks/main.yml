@@ -1,0 +1,16 @@
+---
+- name: "Install common packages"
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - docker
+    - docker-compose
+
+- name: "Create appropriate directories"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0700'
+  loop:
+    - /compose
