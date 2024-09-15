@@ -9,7 +9,7 @@ services:
     image: "traefik:v3.1"
     container_name: "traefik"
     environment:
-      DUCKDNS_TOKEN: '{{ lookup('ansible.builtin.env', 'DUCKDNS_TOKEN') }}'
+      DUCKDNS_TOKEN: '{{ vault.duckdns.token }}'
     command:
       - "--accesslog=true"
       - "--log.level=DEBUG"
@@ -34,11 +34,11 @@ services:
 
       # Cert resolver
       - "--certificatesresolvers.cert_tls.acme.tlschallenge=true"
-      - "--certificatesresolvers.cert_tls.acme.email={{ lookup('ansible.builtin.env', 'CERT_EMAIL') }}"
+      - "--certificatesresolvers.cert_tls.acme.email={{ vault.cert.email }}"
       - "--certificatesresolvers.cert_tls.acme.storage=/certs/acme.tls.json"
 
       - "--certificatesresolvers.cert_dns_duckdns.acme.dnschallenge.provider=duckdns"
-      - "--certificatesresolvers.cert_dns_duckdns.acme.email={{ lookup('ansible.builtin.env', 'CERT_EMAIL') }}"
+      - "--certificatesresolvers.cert_dns_duckdns.acme.email={{ vault.cert.email }}"
       - "--certificatesresolvers.cert_dns_duckdns.acme.storage=/certs/acme.dns.duckdns.json"
     ports:
       - "80:80"
