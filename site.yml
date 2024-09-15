@@ -3,3 +3,8 @@
   hosts: all
   roles:
     - common
+
+- name: "Setup or update rpi"
+  hosts: rpi
+  roles:
+    - traefik
