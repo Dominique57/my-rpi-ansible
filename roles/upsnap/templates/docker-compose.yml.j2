@@ -1,0 +1,18 @@
+{{ ansible_managed | comment }}
+
+version: "3.6"
+
+networks:
+  default:
+    name: 'upsnap'
+
+# Upsnap cannot be reverse proxied due to being on host driver
+# Upsnap should NOT be accessible from the internet -> VPN
+services:
+  upsnap:
+    container_name: upsnap
+    image: ghcr.io/seriousm4x/upsnap:4.2
+    restart: unless-stopped
+    volumes:
+      - /compose/upsnap/bind/data:/app/pb_data
+    network_mode: host
