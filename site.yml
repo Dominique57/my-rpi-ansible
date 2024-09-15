@@ -8,3 +8,4 @@
   hosts: rpi
   roles:
     - traefik
+    - wireguard
