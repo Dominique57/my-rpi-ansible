@@ -15,15 +15,9 @@ $ mv .../vault.key my-rpi-ansible/vault/vault.key
 
 ## Execution
 
-### Env variables
+### Vault
 
-Check `.env.example` for variables to define
-Load your own .env using 
-```bash
-$ set -o allexport
-$ source .env
-$ set +o allexport
-```
+Ensure the vault submodule has correctly been cloned and can be decoded.
 
 ### Connection check
 
