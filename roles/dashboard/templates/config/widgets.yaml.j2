@@ -1,0 +1,35 @@
+---
+{{ ansible_managed | comment }}
+
+- resources:
+    refresh: 10000
+    units: metric
+    cpu: true
+    cputemp: true
+    tempmin: 20
+    tempmax: 80
+    memory: true
+    disk: /
+    uptime: true
+
+- openmeteo:
+    label: Eure
+    latitude: 49.096630
+    longitude: 1.487418
+    timezone: Europe/Berlin
+    units: metric
+    cache: 60
+
+- openmeteo:
+    label: Yvelines
+    latitude: 48.931121
+    longitude: 2.101991
+    timezone: Europe/Berlin
+    units: metric
+    cache: 60
+
+- datetime:
+    text_size: 4xl
+    format:
+      dateStyle: medium
+      timeStyle: short

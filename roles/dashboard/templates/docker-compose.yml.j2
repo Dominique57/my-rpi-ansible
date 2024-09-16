@@ -1,0 +1,27 @@
+{{ ansible_managed | comment }}
+
+version: "3.6"
+
+networks:
+  default:
+    name: 'dashboard'
+  traefik:
+    external: true
+
+services:
+  dashboard:
+    image: ghcr.io/gethomepage/homepage:latest
+    restart: unless-stopped  
+    container_name: dashboard
+    networks:
+      - traefik
+    volumes:
+      - /compose/dashboard/bind/config:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.dashboard-traefik.loadbalancer.server.port=3000"
+      - "traefik.http.routers.dashboard.entrypoints=https"
+      - "traefik.http.routers.dashboard.rule=Host(`aloeil.duckdns.org`)"
+      - "traefik.http.routers.dashboard.tls.domains[0].main=aloeil.duckdns.org"
+      - "traefik.http.routers.dashboard.tls.certresolver=cert_tls"

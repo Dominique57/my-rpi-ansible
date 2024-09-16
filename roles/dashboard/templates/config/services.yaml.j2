@@ -1,0 +1,34 @@
+---
+{{ ansible_managed | comment }}
+
+- Applicative:
+    - TODO:
+        href: http://localhost/
+        description: TODO
+
+- Network:
+    - Traefik:
+        icon: traefik
+        href: http://192.168.1.99:8080
+        description: Reverse proxy (local)
+        server: my-docker
+        container: traefik
+        showStats: true
+        widget:
+            type: traefik
+            url: http://192.168.1.99:8080
+
+    - Wireguard:
+        icon: wireguard
+        href: https://wg.aloeil.duckdns.org
+        description: Secure VPN connection
+        server: my-docker
+        container: wireguard
+
+- Utility:
+    - Upsnap:
+        icon: upsnap
+        href: http://192.168.1.99:8090
+        description: WOL management (local)
+        server: my-docker
+        container: upsnap

@@ -10,3 +10,4 @@
     - traefik
     - wireguard
     - upsnap
+    - dashboard
