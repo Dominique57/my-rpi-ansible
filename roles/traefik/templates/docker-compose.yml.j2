@@ -9,6 +9,7 @@ networks:
 services:
   traefik:
     image: "traefik:v3.1"
+    restart: unless-stopped
     container_name: "traefik"
     environment:
       DUCKDNS_TOKEN: '{{ vault.duckdns.token }}'
@@ -50,32 +51,13 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/compose/traefik/bind/certs:/certs"
 
-  whoami1:
+  whoami:
     image: "traefik/whoami"
-    container_name: "simple-service1"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.whoami.entrypoints=https"
-      - "traefik.http.routers.whoami.rule=Host(`aloeil.ddns.net`)"
-      - "traefik.http.routers.whoami.tls.domains[0].main=aloeil.ddns.net"
-      - "traefik.http.routers.whoami.tls.certresolver=cert_tls"
-
-  whoami2:
-    image: "traefik/whoami"
-    container_name: "simple-service2"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.whoami2.entrypoints=https"
-      - "traefik.http.routers.whoami2.rule=Host(`aloeil.duckdns.org`)"
-      - "traefik.http.routers.whoami2.tls.domains[0].main=aloeil.duckdns.org"
-      - "traefik.http.routers.whoami2.tls.certresolver=cert_tls"
-
-  whoami3:
-    image: "traefik/whoami"
+    restart: unless-stopped
     container_name: "simple-service3"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.whoami3.entrypoints=https"
-      - "traefik.http.routers.whoami3.rule=Host(`whoami.aloeil.duckdns.org`)"
-      - "traefik.http.routers.whoami3.tls.domains[0].main=*.aloeil.duckdns.org"
-      - "traefik.http.routers.whoami3.tls.certresolver=cert_dns_duckdns"
+      - "traefik.http.routers.whoami.entrypoints=https"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.aloeil.duckdns.org`)"
+      - "traefik.http.routers.whoami.tls.domains[0].main=*.aloeil.duckdns.org"
+      - "traefik.http.routers.whoami.tls.certresolver=cert_dns_duckdns"
