@@ -12,6 +12,7 @@ services:
   wireguard:
     image: ghcr.io/wg-easy/wg-easy
     restart: unless-stopped
+    container_name: wireguard
     environment:
       - LANG=en
       - PASSWORD_HASH={{ vault.wireguard.pass_hash }}
