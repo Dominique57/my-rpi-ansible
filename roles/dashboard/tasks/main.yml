@@ -1,0 +1,35 @@
+---
+- name: "Create root directory"
+  ansible.builtin.file:
+    path: "/compose/dashboard/{{ item }}"
+    state: directory
+    mode: '0700'
+  loop:
+    - ''
+
+- name: "Create applicative directory"
+  ansible.builtin.file:
+    path: "/compose/dashboard/{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - bind/
+    - bind/config/
+
+- name: "Create config files"
+  ansible.builtin.template:
+    src: "config/{{ item }}.j2"
+    dest: "/compose/dashboard/bind/config/{{ item }}"
+    mode: '0600'
+  loop:
+    - settings.yaml
+    - services.yaml
+    - widgets.yaml
+    - bookmarks.yaml
+    - docker.yaml
+
+- name: "Create compose file"
+  ansible.builtin.template:
+    src: "docker-compose.yml.j2"
+    dest: "/compose/dashboard/docker-compose.yml"
+    mode: '0600'
