@@ -2,9 +2,11 @@
 {{ ansible_managed | comment }}
 
 - Applicative:
-    - TODO:
-        href: http://localhost/
-        description: TODO
+    - Whoami:
+        icon: mdi-cloud-question
+        href: https://whoami.aloeil.duckdns.org
+        server: my-docker
+        container: whoami
 
 - Network:
     - Traefik:
