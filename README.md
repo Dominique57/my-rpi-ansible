@@ -2,7 +2,8 @@
 
 ## Setup repository
 1. Clone the projet (With the vault submodule)
-3. Set vault.key in vault submodule
+1. Set vault.key in vault submodule
+
 ```bash
 $ git clone --recurse-submodules git@github.com:Dominique57/my-rpi-ansible.git
 $ mv .../vault.key my-rpi-ansible/vault/vault.key
