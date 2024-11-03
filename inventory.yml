@@ -3,6 +3,7 @@ myhosts:
     rpi:
       ansible_host: aloeil.ddns.net
       ansible_connection: ssh
-      ansible_ssh_user: dominique
+      ansible_ssh_port: "{{ vault.host.rpi.ssh_port }}"
+      ansible_ssh_user: "{{ vault.host.rpi.ssh_user }}"
       ansible_ssh_pass: "{{ vault.host.rpi.ssh_pass }}"
       ansible_become: true

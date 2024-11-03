@@ -1,5 +1,15 @@
 # my-rpi-ansible
 
+## Requirements
+- ansible-dedicated **sudoer** user to login into (defined in vault)
+  - ex: ansible-admin
+  ```bash
+  sudo useradd -m ansible-admin
+  sudo passwd ansible-admin
+  > # type and confirm password
+  sudo usermod -a -G sudo ansible-admin # debian-based use `sudo` group
+  ```
+
 ## Setup repository
 1. Clone the projet (With the vault submodule)
 1. Set vault.key in vault submodule
