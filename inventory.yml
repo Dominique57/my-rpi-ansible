@@ -7,3 +7,4 @@ myhosts:
       ansible_ssh_user: "{{ vault.host.rpi.ssh_user }}"
       ansible_ssh_pass: "{{ vault.host.rpi.ssh_pass }}"
       ansible_become: true
+      ansible_become_password: "{{ vault.host.rpi.ssh_pass }}"
