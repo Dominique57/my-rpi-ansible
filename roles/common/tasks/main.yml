@@ -36,3 +36,11 @@
       },{%- endfor %}
     {%- endfor %}
     ]
+
+- name: "Create ssh config file"
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "/etc/ssh/sshd_config.d/{{ item }}"
+    mode: '0644'
+  loop:
+    - "10-secure_ssh.conf"

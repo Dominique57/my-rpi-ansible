@@ -1,0 +1,9 @@
+{{ ansible_managed | comment }}
+
+PermitRootLogin=no
+PasswordAuthentication=no
+ChallengeResponseAuthentication=no
+
+Match User {{ vault_host_defaut_admin_user }}
+    PasswordAuthentication yes
+Match all
