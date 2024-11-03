@@ -14,3 +14,25 @@
     mode: '0700'
   loop:
     - /compose
+
+- name: "Allow SSH keys for each user"
+  ansible.builtin.authorized_key:
+    user: "{{ item.user }}"
+    key: "{{ item.key }}"
+    comment: "{{ item.name }}"
+    "exclusive": "{{ item.exclusive }}"
+    state: "present"
+  loop_control:
+    label: "{{ item.user }}:{{ item.name }}:{{ item.exclusive }}"
+  loop: |
+    [
+    {%- for user in common_users %}
+    {%- for key in user.ssh_keys %}
+      {
+        "user": "{{ user.user }}",
+        "key": "{{ key.key }}",
+        "name": "{{ key.name }}",
+        "exclusive": "{{ loop.index0 == 0 }}",
+      },{%- endfor %}
+    {%- endfor %}
+    ]

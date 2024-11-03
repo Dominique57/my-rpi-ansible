@@ -1,0 +1,6 @@
+# yamllint disable rule:line-length
+common_users:
+  - user: "dominique"
+    ssh_keys:
+      - name: "github"
+        key: "https://github.com/dominique57.keys"
