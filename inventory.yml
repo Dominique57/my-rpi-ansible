@@ -1,10 +1,18 @@
 myhosts:
   hosts:
-    rpi:
-      ansible_host: aloeil.ddns.net
+    rpi2b:
+      ansible_host: "{{ vault.host.rpi2b.host }}"
       ansible_connection: ssh
-      ansible_ssh_port: "{{ vault.host.rpi.ssh_port }}"
-      ansible_ssh_user: "{{ vault.host.rpi.ssh_user }}"
-      ansible_ssh_pass: "{{ vault.host.rpi.ssh_pass }}"
+      ansible_ssh_port: "{{ vault.host.rpi2b.ssh_port }}"
+      ansible_ssh_user: "{{ vault.host.rpi2b.ssh_user }}"
+      ansible_ssh_pass: "{{ vault.host.rpi2b.ssh_pass }}"
       ansible_become: true
-      ansible_become_password: "{{ vault.host.rpi.ssh_pass }}"
+      ansible_become_password: "{{ vault.host.rpi2b.ssh_pass }}"
+    rpi4:
+      ansible_host: "{{ vault.host.rpi4.host }}"
+      ansible_connection: ssh
+      ansible_ssh_port: "{{ vault.host.rpi4.ssh_port }}"
+      ansible_ssh_user: "{{ vault.host.rpi4.ssh_user }}"
+      ansible_ssh_pass: "{{ vault.host.rpi4.ssh_pass }}"
+      ansible_become: true
+      ansible_become_password: "{{ vault.host.rpi4.ssh_pass }}"

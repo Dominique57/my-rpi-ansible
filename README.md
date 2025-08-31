@@ -1,6 +1,7 @@
 # my-rpi-ansible
 
 ## Requirements
+- per-device setup as defined in [doc](./doc)
 - ansible-dedicated **sudoer** user to login into (defined in vault)
   - ex: ansible-admin
   ```bash
