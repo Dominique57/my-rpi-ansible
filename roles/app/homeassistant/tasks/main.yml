@@ -1,0 +1,24 @@
+---
+- name: "Create root directory"
+  ansible.builtin.file:
+    path: "/compose/homeassistant/{{ item }}"
+    state: directory
+    mode: '0700'
+  loop:
+    - ''
+
+- name: "Create applicative directory"
+  ansible.builtin.file:
+    path: "/compose/homeassistant/{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - bind/
+    - bind/config/
+
+- name: "Create compose file"
+  ansible.builtin.template:
+    src: "docker-compose.yml.j2"
+    dest: "/compose/homeassistant/docker-compose.yml"
+    mode: '0600'
+  notify: Up Homeassistant Compose
