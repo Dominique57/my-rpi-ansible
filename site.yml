@@ -4,10 +4,15 @@
   roles:
     - common
 
-- name: "Setup or update rpi"
-  hosts: rpi
+- name: "Setup or update rpi2b"
+  hosts: rpi2b
   roles:
     - traefik
     - wireguard
     - upsnap
     - dashboard
+
+- name: "Setup or update rpi4"
+  hosts: rpi4
+  roles:
+    - app/homeassistant

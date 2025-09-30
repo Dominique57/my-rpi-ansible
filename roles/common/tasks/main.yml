@@ -4,8 +4,8 @@
     name: "{{ item }}"
     state: present
   loop:
-    - docker
-    - docker-compose
+    - docker-ce
+    - docker-compose-plugin
 
 - name: "Create appropriate directories"
   ansible.builtin.file:
@@ -44,3 +44,4 @@
     mode: '0644'
   loop:
     - "10-secure_ssh.conf"
+  notify: Reload sshd

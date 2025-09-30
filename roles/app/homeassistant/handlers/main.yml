@@ -1,0 +1,4 @@
+- name: Up HA Compose
+  ansible.builtin.command:
+    chdir: /compose/homeassistant/
+    cmd: sh -c 'docker compose down && docker compose up -d --quiet-pull'

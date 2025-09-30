@@ -1,0 +1,46 @@
+---
+- name: "Create root directory"
+  ansible.builtin.file:
+    path: "/compose/homeassistant/{{ item }}"
+    state: directory
+    mode: '0700'
+  loop:
+    - ''
+
+- name: "Create applicative directory"
+  ansible.builtin.file:
+    path: "/compose/homeassistant/{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - bind/config/
+    - bind/z2m/data/
+    - bind/mosquitto/config/
+    - bind/mosquitto/data/
+    - bind/mosquitto/log/
+
+- name: "Copy files to destination"
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "/compose/homeassistant/bind/{{ item.dest }}"
+    mode: "{{ item.mode | default('0644') }}"
+  loop:
+    - { src: "mosquitto/mosquitto.conf", dest: "mosquitto/config/mosquitto.conf" }
+  notify: Up HA Compose
+
+- name: "Template files to destination"
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "/compose/homeassistant/bind/{{ item.dest }}"
+    mode: "{{ item.mode | default('0644') }}"
+  loop:
+    - { src: "mosquitto/user_hass.txt", dest: "mosquitto/config/user_hass.txt" }
+    - { src: "z2m/configuration.yaml", dest: "z2m/data/configuration.yaml" }
+  notify: Up HA Compose
+
+- name: "Create compose file"
+  ansible.builtin.template:
+    src: "docker-compose.yml.j2"
+    dest: "/compose/homeassistant/docker-compose.yml"
+    mode: '0600'
+  notify: Up HA Compose
