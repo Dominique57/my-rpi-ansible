@@ -4,10 +4,38 @@ services:
   homeassistant:
     container_name: homeassistant
     image: "ghcr.io/home-assistant/home-assistant:stable"
+    restart: unless-stopped
     volumes:
       - /compose/homeassistant/bind/config:/config
       - /etc/localtime:/etc/localtime:ro
-      - /run/dbus:/run/dbus:ro # will see when necessary
-    restart: unless-stopped
+      - /run/dbus:/run/dbus:ro
     network_mode: host
-    privileged: true # will see when necessary
+    privileged: true
+
+  mosquitto:
+    container_name: mosquitto
+    image: eclipse-mosquitto
+    restart: unless-stopped
+    volumes:
+      - /compose/homeassistant/bind/mosquitto/config:/mosquitto/config
+      - /compose/homeassistant/bind/mosquitto/data:/mosquitto/data
+      - /compose/homeassistant/bind/mosquitto/log:/mosquitto/log
+    ports:
+      - 127.0.0.1:1883:1883 # MQTT
+      - 127.0.0.1:9001:9001 # HTTP/WebSock
+    environment:
+      - TZ=Europe/Paris
+
+  z2m:
+    container_name: z2m
+    image: ghcr.io/koenkk/zigbee2mqtt
+    restart: unless-stopped
+    volumes:
+      - /compose/homeassistant/bind/z2m/data:/app/data
+      - /run/udev:/run/udev:ro
+    ports:
+      - 8081:8080
+    environment:
+      - TZ=Europe/Paris
+    devices:
+      - /dev/serial/by-id/usb-SMLIGHT_SMLIGHT_SLZB-MR1_b494424997d4ef1198525a2a49d2c684-if00-port0:/dev/ttyUSB0

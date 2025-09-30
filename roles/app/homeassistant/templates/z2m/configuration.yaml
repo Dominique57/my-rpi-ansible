@@ -1,0 +1,46 @@
+version: 4
+mqtt:
+  base_topic: zigbee2mqtt
+  server: mqtt://mosquitto:1883
+  user: hass
+  password: {{ vault.mosquitto.pass }}
+serial:
+  port: /dev/ttyUSB0
+  adapter: zstack
+  baudrate: 115200
+  rtscts: false
+advanced:
+  log_level: info
+  channel: 11
+  network_key:
+    - 246
+    - 28
+    - 66
+    - 6
+    - 18
+    - 63
+    - 108
+    - 234
+    - 145
+    - 82
+    - 247
+    - 82
+    - 223
+    - 102
+    - 159
+    - 75
+  pan_id: 48529
+  ext_pan_id:
+    - 170
+    - 230
+    - 90
+    - 183
+    - 173
+    - 198
+    - 122
+    - 75
+frontend:
+  enabled: true
+  port: 8080
+homeassistant:
+  enabled: true
