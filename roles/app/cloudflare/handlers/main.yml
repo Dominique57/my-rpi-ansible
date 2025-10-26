@@ -1,0 +1,5 @@
+- name: Up cloudflare Compose
+  ansible.builtin.command:
+    chdir: /compose/cloudflare/
+    cmd: sh -c 'docker compose down && docker compose up -d --quiet-pull'
+

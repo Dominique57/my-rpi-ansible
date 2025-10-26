@@ -1,0 +1,11 @@
+{{ ansible_managed | comment }}
+
+services:
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    restart: unless-stopped
+    network_mode: host
+    command: tunnel --no-autoupdate run
+    environment:
+      - TUNNEL_TOKEN={{ vault.cloudflare.tunnel_token }}

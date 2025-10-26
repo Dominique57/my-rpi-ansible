@@ -1,0 +1,29 @@
+---
+- name: "Create root directory"
+  ansible.builtin.file:
+    path: "/compose/cloudflare/"
+    state: directory
+    mode: '0700'
+
+- name: "Create applicative directory"
+  ansible.builtin.file:
+    path: "/compose/cloudflare/bind/{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - ''
+
+- name: "Create compose env file"
+  ansible.builtin.template:
+    src: "docker-compose.env"
+    dest: "/compose/cloudflare/.env"
+    mode: '0600'
+  notify: Up cloudflare Compose
+
+
+- name: "Create compose file"
+  ansible.builtin.copy:
+    src: "docker-compose.yml"
+    dest: "/compose/cloudflare/docker-compose.yml"
+    mode: '0600'
+  notify: Up cloudflare Compose
