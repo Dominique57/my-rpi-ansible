@@ -15,4 +15,5 @@
 - name: "Setup or update rpi4"
   hosts: rpi4
   roles:
+    - app/cloudflare
     - app/homeassistant
