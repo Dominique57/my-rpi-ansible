@@ -15,6 +15,8 @@
   loop:
     - bind/config/
     - bind/z2m/data/
+    - bind/otbr/data/
+    - bind/matter-server/data/
     - bind/mosquitto/config/
     - bind/mosquitto/data/
     - bind/mosquitto/log/
