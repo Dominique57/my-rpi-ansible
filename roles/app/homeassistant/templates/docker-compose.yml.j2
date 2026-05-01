@@ -3,7 +3,7 @@
 services:
   homeassistant:
     container_name: homeassistant
-    image: "ghcr.io/home-assistant/home-assistant:stable"
+    image: ghcr.io/home-assistant/home-assistant:stable
     restart: unless-stopped
     volumes:
       - /compose/homeassistant/bind/config:/config
@@ -14,7 +14,7 @@ services:
 
   mosquitto:
     container_name: mosquitto
-    image: eclipse-mosquitto
+    image: eclipse-mosquitto:latest
     restart: unless-stopped
     volumes:
       - /compose/homeassistant/bind/mosquitto/config:/mosquitto/config
@@ -28,7 +28,7 @@ services:
 
   z2m:
     container_name: z2m
-    image: ghcr.io/koenkk/zigbee2mqtt
+    image: ghcr.io/koenkk/zigbee2mqtt:latest
     restart: unless-stopped
     volumes:
       - /compose/homeassistant/bind/z2m/data:/app/data
@@ -39,3 +39,34 @@ services:
       - TZ=Europe/Paris
     devices:
       - /dev/serial/by-id/usb-SMLIGHT_SMLIGHT_SLZB-MR1_b494424997d4ef1198525a2a49d2c684-if00-port0:/dev/ttyUSB0
+
+  otbr:
+    container_name: otbr
+    image: openthread/border-router:latest
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - /compose/homeassistant/bind/otbr/data:/data
+    environment:
+      - OT_RCP_DEVICE=spinel+hdlc+uart:///dev/ttyUSB0?uart-baudrate=460800
+      - OT_REST_LISTEN_PORT=8091
+      - OT_REST_LISTEN_ADDR=0.0.0.0
+      - OT_WEB_LISTEN_PORT=8090
+      - OT_WEB_LISTEN_ADDR=0.0.0.0
+      - OT_INFRA_IF=wlan0
+      - OT_THREAD_IF=wpan0
+      - OT_LOG_LEVEL=7
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
+      - /dev/net/tun:/dev/net/tun
+    network_mode: host
+
+  matter-server:
+    container_name: matter-server
+    image: ghcr.io/home-assistant-libs/python-matter-server:stable
+    restart: unless-stopped
+    volumes:
+      - /compose/homeassistant/bind/matter-server/data:/data
+      - /run/dbus:/run/dbus:ro
+    network_mode: host
