@@ -5,11 +5,12 @@ mqtt:
   user: hass
   password: {{ vault.mosquitto.pass }}
 serial:
-  port: /dev/ttyUSB0
-  adapter: zstack
+  port: tcp://192.168.1.202:7638
   baudrate: 115200
-  rtscts: false
+  adapter: zstack
+  disable_led: false
 advanced:
+  transmit_power: 20
   log_level: info
   channel: 11
   network_key:
